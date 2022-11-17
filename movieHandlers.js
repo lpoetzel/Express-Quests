@@ -36,7 +36,7 @@ const getMovies = (req, res) => {
     sqlValues.push(req.query.color);
 
     if (req.query.max_duration != null) {
-      sql += "and duration <= ?";
+      sql += " and duration <= ?";
       sqlValues.push(req.query.max_duration);
     }
   } else if (req.query.max_duration != null) {
@@ -80,21 +80,21 @@ const getUsers = (req, res) => {
   let sql = "select * from users";
   const sqlValues = [];
 
-  if (res.query.language != null) {
-    sql += " where language is =?";
+  if (req.query.language != null) {
+    sql += " where language =?";
     sqlValues.push(req.query.language);
 
     if (req.query.city != null) {
-      sql += " and city =?";
+      sql += " and city = ?";
       sqlValues.push(req.query.city);
     }
   } else if (req.query.city != null) {
-    sql += " where city =?";
+    sql += " where city = ?";
     sqlValues.push(req.query.city);
   }
   database
 
-    .query("select * from users")
+    .query(sql, sqlValues)
 
     .then(([users]) => {
       res.json(users);
