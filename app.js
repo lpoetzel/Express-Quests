@@ -3,6 +3,7 @@ const express = require("express");
 
 const { validateMovie, validateUser } = require("./validators.js");
 
+const { hashPassword } = require("./auth.js");
 const app = express();
 
 app.use(express.json());
@@ -37,7 +38,7 @@ app.put("/api/users/:id", validateUser, movieHandlers.updateUser);
 
 app.post("/api/movies", validateMovie, movieHandlers.postMovie);
 
-app.post("/api/users", validateUser, movieHandlers.postUser);
+app.post("/api/users", hashPassword, movieHandlers.postUser);
 
 app.delete("/api/movies/:id", movieHandlers.deleteMovie);
 
