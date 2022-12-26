@@ -18,9 +18,6 @@ app.get("/", welcome);
 
 const movieHandlers = require("./movieHandlers");
 
-app.get("/api/movies", movieHandlers.getMovies);
-app.get("/api/movies/:id", movieHandlers.getMovieById);
-
 app.listen(port, (err) => {
   if (err) {
     console.error("Something bad happened");
@@ -29,21 +26,12 @@ app.listen(port, (err) => {
   }
 });
 
+//public routes
+app.get("/api/movies", movieHandlers.getMovies);
+app.get("/api/movies/:id", movieHandlers.getMovieById);
+
 app.get("/api/users", movieHandlers.getUsers);
 app.get("/api/users/:id", movieHandlers.getUserById);
-
-app.put("/api/movies/:id", validateMovie, movieHandlers.updateMovie);
-
-app.put("/api/users/:id", validateUser, movieHandlers.updateUser);
-
-app.post("/api/movies", verifyToken, movieHandlers.postMovie);
-
-app.post("/api/users", hashPassword, movieHandlers.postUser);
-
-app.delete("/api/movies/:id", movieHandlers.deleteMovie);
-
-app.delete("/api/users/:id", movieHandlers.deleteUser);
-
 app.post(
   "/api/login",
 
@@ -51,3 +39,19 @@ app.post(
 
   verifyPassword
 );
+
+//routes to protect
+
+app.use(verifyToken);
+
+app.put("/api/movies/:id", movieHandlers.updateMovie);
+
+app.put("/api/users/:id", validateUser, movieHandlers.updateUser);
+
+app.post("/api/movies", movieHandlers.postMovie);
+
+app.post("/api/users", hashPassword, movieHandlers.postUser);
+
+app.delete("/api/movies/:id", movieHandlers.deleteMovie);
+
+app.delete("/api/users/:id", movieHandlers.deleteUser);
