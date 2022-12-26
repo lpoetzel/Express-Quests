@@ -18,7 +18,7 @@ database
   .catch((err) => {
     console.error(err);
   });
-database
+/* database
   .query("select * from movies")
   .then((result) => {
     console.log(result);
@@ -33,5 +33,5 @@ database
   })
   .catch((err) => {
     console.error(err);
-  });
+  }); */
 module.exports = database;
